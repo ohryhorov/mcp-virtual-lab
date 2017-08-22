@@ -20,7 +20,6 @@ classes:
 - system.keystone.client.service.nova-placement
 - system.mysql.client.single
 - system.reclass.storage.system.openstack_control_cluster
-- system.reclass.storage.system.openstack_compute_multi
 - system.reclass.storage.system.openstack_baremetal_single
 - system.reclass.storage.system.openstack_dashboard_single
 - system.reclass.storage.system.stacklight_server_cluster
@@ -97,6 +96,16 @@ parameters:
           cluster_param:
             openstack_control_node03_address:
               value_template: <<node_control_ip>>
+        openstack_compute:
+          expression: <<node_hostname>>__startswith__cmp
+          node_class:
+            value_template:
+              - cluster.<<node_cluster>>.openstack.compute
+          node_param:
+            tenant_address:
+              value_template: <<node_tenant_ip>>
+            external_address:
+              value_template: <<node_external_ip>>
         openstack_gateway:
           expression: <<node_hostname>>__startswith__gtw
           node_class:
