@@ -153,3 +153,11 @@ parameters:
             ironic_api_type: 'deploy'
             tenant_address: 10.1.0.110
             external_address: 10.16.0.110
+  salt:
+    master:
+      environment:
+        prd:
+          formula:
+            baremetal_simulator:
+              name: salt-formula-baremetal-simulator
+              source: pkg
