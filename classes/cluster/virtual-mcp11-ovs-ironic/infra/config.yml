@@ -134,6 +134,8 @@ parameters:
           cluster_param:
             openstack_baremetal_node01_address:
               value_template: <<node_control_ip>>
+            openstack_baremetal_node01_baremetal_address:
+              value_template: <<node_baremetal_ip>>
       node:
         openstack_control_node01:
           classes:
