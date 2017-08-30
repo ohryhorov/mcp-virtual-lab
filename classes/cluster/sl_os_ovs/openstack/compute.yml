@@ -2,9 +2,10 @@ classes:
 - system.linux.system.repo.mcp.openstack
 - system.linux.system.repo.mcp.extra
 - system.linux.system.repo.saltstack.xenial
+- system.linux.network.hosts
 - system.nova.compute.cluster
 - system.neutron.compute.cluster
-- system.heka.alarm.openstack_compute
+- system.prometheus.exporters.libvirt
 - cluster.sl_os_ovs
 parameters:
   _param:

@@ -9,11 +9,20 @@ classes:
 - system.salt.minion.ca.salt_master
 - system.salt.minion.cert.proxy
 - system.sphinx.server.doc.reclass
-- system.keystone.client.single
-- system.keystone.client.service.nova21
-- system.keystone.client.service.glare
-- system.keystone.client.service.cinder3
+- system.keystone.client.core
 - system.keystone.client.service.designate
+- system.keystone.client.service.cinder
+- system.keystone.client.service.cinder2
+- system.keystone.client.service.cinder3
+- system.keystone.client.service.glance
+- system.keystone.client.service.glare
+- system.keystone.client.service.heat
+- system.keystone.client.service.heat-cfn
+- system.keystone.client.service.keystone
+- system.keystone.client.service.neutron
+- system.keystone.client.service.nova-ec2
+- system.keystone.client.service.nova21
+- system.keystone.client.service.nova-placement
 - system.mysql.client
 - system.mysql.client.database.cinder
 - system.mysql.client.database.glance
@@ -127,6 +136,7 @@ parameters:
           params:
             mysql_cluster_role: master
             linux_system_codename: xenial
+            horizon_identity_host: ${_param:openstack_control_address}
         openstack_control_node02:
           classes:
           - service.galera.slave.cluster
@@ -134,6 +144,7 @@ parameters:
           params:
             mysql_cluster_role: slave
             linux_system_codename: xenial
+            horizon_identity_host: ${_param:openstack_control_address}
         openstack_control_node03:
           classes:
           - service.galera.slave.cluster
@@ -141,3 +152,5 @@ parameters:
           params:
             mysql_cluster_role: slave
             linux_system_codename: xenial
+            horizon_identity_host: ${_param:openstack_control_address}
+

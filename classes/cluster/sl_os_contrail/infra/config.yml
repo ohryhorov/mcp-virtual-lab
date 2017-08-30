@@ -1,7 +1,10 @@
 classes:
 - service.git.client
+- system.docker.client
+- system.docker.host
 - system.linux.system.single
 - system.linux.system.repo.mcp.salt
+- system.linux.system.repo.mcp.openstack
 - system.openssh.client.lab
 - system.salt.master.api
 - system.salt.master.pkg
@@ -9,11 +12,22 @@ classes:
 - system.salt.minion.ca.salt_master
 - system.salt.minion.cert.proxy
 - system.sphinx.server.doc.reclass
-- system.keystone.client.single
-- system.keystone.client.service.nova21
-- system.keystone.client.service.glare
-- system.keystone.client.service.cinder3
+- system.keystone.client.core
+- system.keystone.client.service.aodh
+- system.keystone.client.service.ceilometer
 - system.keystone.client.service.designate
+- system.keystone.client.service.cinder
+- system.keystone.client.service.cinder2
+- system.keystone.client.service.cinder3
+- system.keystone.client.service.glance
+- system.keystone.client.service.glare
+- system.keystone.client.service.heat
+- system.keystone.client.service.heat-cfn
+- system.keystone.client.service.keystone
+- system.keystone.client.service.neutron
+- system.keystone.client.service.nova-ec2
+- system.keystone.client.service.nova21
+- system.keystone.client.service.nova-placement
 - system.mysql.client
 - system.mysql.client.database.cinder
 - system.mysql.client.database.glance
@@ -24,7 +38,6 @@ classes:
 - system.mysql.client.database.neutron
 - system.reclass.storage.system.openstack_control_cluster
 - system.reclass.storage.system.opencontrail_control_cluster
-- system.reclass.storage.system.stacklightv2_server_cluster
 - cluster.sl_os_contrail.openstack.proxy
 - cluster.sl_os_contrail.stacklight.proxy
 - cluster.sl_os_contrail.openstack.dashboard
@@ -53,7 +66,7 @@ parameters:
       site:
         nginx_proxy_openstack_web:
           proxy:
-            host: prx
+            host: cfg
         nginx_proxy_openstack_api_heat_cfn:
           enabled: false
   salt:
@@ -138,21 +151,73 @@ parameters:
             stacklight_monitor_node03_address:
               value_template: <<node_control_ip>>
       node:
+        prx_node:
+          name: ${_param:openstack_proxy_node01_hostname}
+          domain: ${_param:cluster_domain}
+          classes:
+          - cluster.${_param:cluster_name}.stacklight.proxy
+          params:
+            salt_master_host: ${_param:infra_config_deploy_address}
+            linux_system_codename: xenial
+            single_address: ${_param:openstack_proxy_node01_address}
+        stacklight_monitor_node01:
+          name: ${_param:stacklight_monitor_node01_hostname}
+          domain: ${_param:cluster_domain}
+          classes:
+          - system.docker.swarm.master
+          - cluster.${_param:cluster_name}.stacklight.client
+          - cluster.${_param:cluster_name}.stacklight.server
+          params:
+            salt_master_host: ${_param:infra_config_deploy_address}
+            linux_system_codename: xenial
+            single_address: ${_param:stacklight_monitor_node01_address}
+            keepalived_vip_priority: 100
+        stacklight_monitor_node02:
+          name: ${_param:stacklight_monitor_node02_hostname}
+          domain: ${_param:cluster_domain}
+          classes:
+          - system.docker.swarm.manager
+          - cluster.${_param:cluster_name}.stacklight.server
+          params:
+            salt_master_host: ${_param:infra_config_deploy_address}
+            linux_system_codename: xenial
+            single_address: ${_param:stacklight_monitor_node02_address}
+            keepalived_vip_priority: 101
+        stacklight_monitor_node03:
+          name: ${_param:stacklight_monitor_node03_hostname}
+          domain: ${_param:cluster_domain}
+          classes:
+          - system.docker.swarm.manager
+          - cluster.${_param:cluster_name}.stacklight.server
+          params:
+            salt_master_host: ${_param:infra_config_deploy_address}
+            linux_system_codename: xenial
+            single_address: ${_param:stacklight_monitor_node03_address}
+            keepalived_vip_priority: 102
+        opencontrail_control_node01:
+          params:
+            rabbitmq_cluster_role: master
+        opencontrail_control_node02:
+          params:
+            rabbitmq_cluster_role: slave
+        opencontrail_control_node03:
+          params:
+            rabbitmq_cluster_role: slave
         openstack_control_node01:
           classes:
           - service.galera.master.cluster
           params:
-            mysql_cluster_role: master
             linux_system_codename: xenial
+            mysql_cluster_role: master
         openstack_control_node02:
           classes:
           - service.galera.slave.cluster
           params:
-            mysql_cluster_role: slave
             linux_system_codename: xenial
+            mysql_cluster_role: slave
         openstack_control_node03:
           classes:
           - service.galera.slave.cluster
           params:
-            mysql_cluster_role: slave
             linux_system_codename: xenial
+            mysql_cluster_role: slave
