@@ -15,9 +15,8 @@ classes:
 - system.kibana.server.single
 - system.haproxy.proxy.listen.stacklight.elasticsearch
 - system.haproxy.proxy.listen.stacklight.kibana
-- system.haproxy.proxy.listen.stacklight.influxdb_relay
+- system.haproxy.proxy.listen.stacklight.influxdb
 - service.haproxy.proxy.single
-- system.influxdb.relay.cluster
 - system.influxdb.server.single
 - system.influxdb.database.prometheus
 - system.influxdb.database.ceilometer
@@ -38,7 +37,6 @@ parameters:
     keepalived_prometheus_vip_password: 'password'
     keepalived_prometheus_vip_interface: ens4
     cluster_vip_address: ${_param:stacklight_monitor_address}
-    cluster_local_address: ${_param:single_address}
     cluster_elasticsearch_port: 9200
     cluster_kibana_port: 5601
     cluster_node01_hostname: mon01
