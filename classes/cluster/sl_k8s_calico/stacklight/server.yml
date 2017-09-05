@@ -14,8 +14,10 @@ classes:
 - service.haproxy.proxy.single
 - system.glusterfs.client.cluster
 - system.glusterfs.client.volume.prometheus
+- system.glusterfs.client.volume.influxdb
 - system.glusterfs.server.cluster
 - system.glusterfs.server.volume.prometheus
+- system.glusterfs.server.volume.influxdb
 - system.galera.server.cluster
 - system.galera.server.database.grafana
 - system.influxdb.relay.cluster
