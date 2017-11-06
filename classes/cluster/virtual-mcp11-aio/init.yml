@@ -58,6 +58,26 @@ parameters:
           - pin: ${_param:linux_system_repo_pin}
             priority: ${_param:linux_system_repo_priority}
             package: '*'
+        mirantis_pike_pkgs:
+          source: "deb http://mirror.fuel-infra.org/mcp-repos/${_param:openstack_version} ${_param:linux_system_codename} main"
+          architectures: amd64
+          pgpcheck: 0
+          pin:
+          - pin: 'origin mirror.fuel-infra.org'
+            priority: 1300
+            package: 'nova-*'
+          - pin: 'origin mirror.fuel-infra.org'
+            priority: 1300
+            package: 'python-nova'
+          - pin: 'origin mirror.fuel-infra.org'
+            priority: 1300
+            package: 'python-sqlalchemy'
+          - pin: 'origin mirror.fuel-infra.org'
+            priority: 1300
+            package: 'cinder-*'
+          - pin: 'origin mirror.fuel-infra.org'
+            priority: 1300
+            package: 'python-cinder'
     network:
       bridge: openvswitch
       interface:
