@@ -1,5 +1,6 @@
 
 classes:
+  - system.linux.system.repo.docker
   - system.linux.system.haveged
   - system.glusterfs.client.cluster
   - system.glusterfs.client.volume.aptly
@@ -10,7 +11,6 @@ classes:
   - system.glusterfs.client.volume.mysql
   - system.glusterfs.client.volume.openldap
   - system.glusterfs.client.volume.postgresql
-  - system.glusterfs.client.volume.prometheus
   - system.glusterfs.client.volume.pushkin
   - system.glusterfs.client.volume.registry
   - system.glusterfs.client.volume.rundeck
@@ -37,7 +37,7 @@ classes:
   - system.docker.swarm.stack.rundeck
   - system.docker.swarm.stack.security_monkey
   # Docker networks
-  - system.docker.swarm.network.runbook
+  - system.docker.swarm.network.oss_backend
 
   # Keepalived
   - system.keepalived.cluster.instance.cicd_control_vip
@@ -245,6 +245,10 @@ parameters:
     pushkin_db_user: pushkin
     pushkin_db_user_password: kRQaFJWiqhQfy6sN
     pushkin_db_host: ${_param:haproxy_postgresql_bind_host}
+    pushkin_smtp_host: 127.0.0.1
+    pushkin_smtp_port: 25
+    pushkin_email_sender_password: ''
+
     #..WebHook notification senders
     webhook_from: pushkin@example.com
     webhook_recipients: alerts@example.com

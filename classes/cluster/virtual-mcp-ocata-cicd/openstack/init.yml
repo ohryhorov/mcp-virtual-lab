@@ -59,7 +59,9 @@ parameters:
       rndc_host: ${_param:openstack_control_node01_address}
       rndc_port: 953
       rndc_key_file: /etc/designate/rndc.key
+    designate_quota_zones: 40
     designate_version: ${_param:openstack_version}
+    designate_worker_enabled: true
     glance_version: ${_param:openstack_version}
     glance_service_host: ${_param:cluster_vip_address}
     keystone_version: ${_param:openstack_version}
@@ -68,7 +70,7 @@ parameters:
     heat_service_host: ${_param:cluster_vip_address}
     heat_domain_admin_password: workshop
     ceilometer_version: ${_param:openstack_version}
-    ceilometer_service_host: 172.16.10.108
+    ceilometer_service_host: ${_param:cluster_vip_address}
     cinder_version: ${_param:openstack_version}
     cinder_service_host: ${_param:cluster_vip_address}
     ceilometer_graphite_publisher_host: 172.16.10.107
@@ -79,7 +81,7 @@ parameters:
     neutron_version: ${_param:openstack_version}
     neutron_service_host: ${_param:cluster_vip_address}
     designate_service_host: ${_param:cluster_vip_address}
-    metadata_password: password
+    metadata_password: workshop
     mysql_admin_user: root
     mysql_admin_password: workshop
     mysql_cinder_password: workshop
@@ -103,7 +105,6 @@ parameters:
     keystone_nova_password: workshop
     keystone_designate_password: workshop
     ceilometer_secret_key: workshop
-    metadata_password: workshop
     horizon_version: ${_param:openstack_version}
     horizon_secret_key: opaesee8Que2yahJoh9fo0eefo1Aeyo6ahyei8zeiboh3aeth5loth7ieNa5xi5e
     horizon_identity_host: ${_param:cluster_vip_address}

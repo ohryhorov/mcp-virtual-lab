@@ -20,7 +20,6 @@ classes:
 - system.keystone.client.service.designate
 - system.mysql.client.single
 - system.reclass.storage.system.openstack_control_cluster
-- system.reclass.storage.system.stacklight_server_cluster
 - system.reclass.storage.system.openstack_compute_multi
 - system.reclass.storage.system.openstack_gateway_single
 - system.reclass.storage.system.openstack_dashboard_single
@@ -34,7 +33,7 @@ parameters:
     reclass_data_revision: master
     salt_master_environment_repository: "https://github.com/tcpcloud"
     salt_master_environment_revision: master
-    reclass_config_master: 192.168.10.100
+    reclass_config_master: 192.168.10.90
     single_address: 172.16.10.100
     salt_master_host: 127.0.0.1
     salt_master_base_environment: prd
@@ -124,12 +123,12 @@ parameters:
         stacklight_monitor_node01:
           expression: <<node_hostname>>__equals__mon01
           cluster_param:
-            stacklight_monitor_node03_address:
+            stacklight_monitor_node01_address:
               value_template: <<node_control_ip>>
         stacklight_monitor_node02:
           expression: <<node_hostname>>__equals__mon02
           cluster_param:
-            stacklight_monitor_node03_address:
+            stacklight_monitor_node02_address:
               value_template: <<node_control_ip>>
         stacklight_monitor_node03:
           expression: <<node_hostname>>__equals__mon03
@@ -164,6 +163,10 @@ parameters:
           params:
             mysql_cluster_role: slave
             linux_system_codename: xenial
+        stacklight_server_node01:
+          classes:
+          - system.influxdb.server.single
+          - system.influxdb.database.stacklight
         openstack_compute_node01:
           params:
             single_address: 172.16.10.105

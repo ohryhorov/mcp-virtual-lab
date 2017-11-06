@@ -1,4 +1,5 @@
 classes:
+- system.linux.network.dynamic_hosts
 - service.git.client
 - system.linux.system.single
 - system.linux.system.repo.mcp.salt
@@ -8,7 +9,6 @@ classes:
 - system.salt.minion.ca.salt_master
 - system.salt.minion.cert.proxy
 - system.reclass.storage.salt
-- service.mysql.server.single
 - system.mysql.client
 - system.memcached.server.single
 - system.rabbitmq.server.single
@@ -25,12 +25,15 @@ parameters:
     single_address: 172.16.10.90
     infra_config_address: ${_param:single_address}
     cluster_domain: virtual-mcp11-aio.local
+    cluster_name: virtual-mcp11-aio
+    infra_config_hostname: cfg01
 
     mysql_admin_user: root
     mysql_admin_password: workshop
+    mysql_cluster_role: master
     rabbitmq_secret_key: workshop
     rabbitmq_admin_password: workshop
-    loopback_device_size: 10
+    loopback_device_size: 20
     salt_master_host: 192.168.10.90
     salt_master_base_environment: prd
     salt_minion_ca_host: ${linux:network:fqdn}
@@ -51,6 +54,10 @@ parameters:
           source: ${_param:linux_system_repo}
           architectures: amd64
           clean_file: true
+          pin:
+          - pin: ${_param:linux_system_repo_pin}
+            priority: ${_param:linux_system_repo_priority}
+            package: '*'
     network:
       bridge: openvswitch
       interface:
@@ -64,10 +71,6 @@ parameters:
           proto: static
           address: ${_param:openstack_public_neutron_subnet_gateway}
           netmask: 255.255.255.0
-  mysql:
-    server:
-      version: '5.6'
-      max_connections: 20000
 # override on this level
   nova:
     compute:
@@ -81,6 +84,11 @@ parameters:
         members:
         - host: ${_param:single_address}
           port: 11211
+  galera:
+    master:
+      members:
+      - host: ${_param:single_address}
+        port: 4567
   neutron:
     server:
       message_queue:

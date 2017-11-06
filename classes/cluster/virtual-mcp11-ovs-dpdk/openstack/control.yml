@@ -36,8 +36,6 @@ classes:
 parameters:
   _param:
     keepalived_vip_interface: ens4
-    keepalived_openstack_telemetry_vip_address: 172.16.10.252
-    keepalived_openstack_telemetry_vip_interface: ens4
   linux:
     system:
       package:
@@ -104,6 +102,8 @@ parameters:
                 rndc_host: ${_param:openstack_control_node03_address}
                 rndc_port: 953
                 rndc_key_file: /etc/designate/rndc.key
+    worker:
+      enabled: ${_param:designate_worker_enabled}
   glance:
     server:
       storage:
@@ -147,4 +147,3 @@ parameters:
       notification:
         driver: messagingv2
         topics: "notifications,${_param:stacklight_notification_topic}"
-

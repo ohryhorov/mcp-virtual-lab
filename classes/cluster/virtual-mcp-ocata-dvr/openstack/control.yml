@@ -14,7 +14,6 @@ classes:
 - system.glusterfs.client.volume.keystone
 - system.glusterfs.server.volume.glance
 - system.glusterfs.server.volume.keystone
-- system.glusterfs.server.volume.prometheus
 - system.glusterfs.server.cluster
 - system.glance.control.cluster
 - system.nova.control.cluster
@@ -26,7 +25,6 @@ classes:
 - system.aodh.server.cluster
 - system.heka.ceilometer_collector.single
 - system.designate.server.cluster
-- system.designate.server.backend.pdns
 - system.galera.server.cluster
 - system.galera.server.database.aodh
 - system.galera.server.database.ceilometer
@@ -43,8 +41,6 @@ classes:
 parameters:
   _param:
     keepalived_vip_interface: ens4
-    keepalived_openstack_telemetry_vip_interface: ens4
-    keepalived_openstack_telemetry_vip_address: 172.16.10.252
   linux:
     system:
       package:
@@ -63,13 +59,6 @@ parameters:
       instance:
         VIP:
           virtual_router_id: 150
-  powerdns:
-    server:
-      axfr_ips:
-        - ${_param:openstack_control_node01_address}
-        - ${_param:openstack_control_node02_address}
-        - ${_param:openstack_control_node03_address}
-        - 127.0.0.1
   keystone:
     server:
       admin_email: ${_param:admin_email}
@@ -77,7 +66,17 @@ parameters:
         driver: messagingv2
         topics: "notifications,${_param:stacklight_notification_topic}"
   designate:
+    pool_manager:
+      enabled: ${_param:designate_pool_manager_enabled}
+      periodic_sync_interval: ${_param:designate_pool_manager_periodic_sync_interval}
     server:
+      backend:
+        pdns4:
+          api_token: ${_param:designate_pdns_api_key}
+          api_endpoint: ${_param:designate_pdns_api_endpoint}
+      mdns:
+        address: ${_param:designate_mdns_address}
+        port: ${_param:designate_mdns_port}
       pools:
         default:
           description: 'test pool'
@@ -89,19 +88,12 @@ parameters:
               description: 'test target2'
               masters: ${_param:designate_pool_target_masters}
               options:
-                host: ${_param:openstack_control_node02_address}
+                host: ${_param:openstack_dns_node02_address}
                 port: 53
-                api_endpoint: "http://${_param:openstack_control_node02_address}:${_param:powerdns_webserver_port}"
+                api_endpoint: "http://${_param:openstack_dns_node02_address}:${_param:powerdns_webserver_port}"
                 api_token: ${_param:designate_pdns_api_key}
-            default2:
-              type: ${_param:designate_pool_target_type}
-              description: 'test target3'
-              masters: ${_param:designate_pool_target_masters}
-              options:
-                host: ${_param:openstack_control_node03_address}
-                port: 53
-                api_endpoint: "http://${_param:openstack_control_node03_address}:${_param:powerdns_webserver_port}"
-                api_token: ${_param:designate_pdns_api_key}
+      quota:
+        zones: ${_param:designate_quota_zones}
   glance:
     server:
       storage:

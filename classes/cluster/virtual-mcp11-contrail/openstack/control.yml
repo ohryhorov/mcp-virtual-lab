@@ -12,7 +12,6 @@ classes:
 - system.keystone.server.cluster
 - system.glusterfs.server.volume.glance
 - system.glusterfs.server.volume.keystone
-- system.glusterfs.server.volume.prometheus
 - system.glusterfs.server.cluster
 - system.glusterfs.client.cluster
 - system.glusterfs.client.volume.glance
@@ -45,7 +44,6 @@ classes:
 parameters:
   _param:
     keepalived_vip_interface: ens4
-    keepalived_openstack_telemetry_vip_address: 172.16.10.251
     cluster_vip_address: ${_param:openstack_control_address}
     cluster_local_address: ${_param:single_address}
     cluster_node01_hostname: ctl01
@@ -54,7 +52,6 @@ parameters:
     cluster_node02_address: ${_param:openstack_control_node02_address}
     cluster_node03_hostname: ctl03
     cluster_node03_address: ${_param:openstack_control_node03_address}
-    keepalived_openstack_telemetry_vip_interface: ens4
   linux:
     system:
       package:
@@ -121,6 +118,8 @@ parameters:
                 rndc_host: ${_param:openstack_control_node03_address}
                 rndc_port: 953
                 rndc_key_file: /etc/designate/rndc.key
+    worker:
+      enabled: ${_param:designate_worker_enabled}
   glance:
     server:
       storage:

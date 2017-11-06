@@ -1,4 +1,5 @@
 classes:
+- system.linux.network.dynamic_hosts
 - service.grafana.collector
 - system.heka.log_collector.single
 - system.heka.log_collector.output.telegraf
@@ -19,6 +20,7 @@ parameters:
     cluster_domain: virtual-mcp-ocata-dvr.local
     cluster_name: virtual-mcp-ocata-dvr
     # infra service addresses
+    infra_config_hostname: cfg01
     infra_config_address: 172.16.10.100
     # openstack service addresses
     openstack_database_address: 172.16.10.254
@@ -38,6 +40,8 @@ parameters:
     openstack_message_queue_node03_address: ${_param:openstack_control_node03_address}
     openstack_gateway_address: 172.16.10.110
     openstack_gateway_node01_address: ${_param:openstack_gateway_address}
+    openstack_dns_node01_address: 172.16.10.111
+    openstack_dns_node02_address: 172.16.10.112
     # stacklight service addresses
     stacklight_monitor_address: 172.16.10.253
     stacklight_monitor_node01_address: 172.16.10.107
