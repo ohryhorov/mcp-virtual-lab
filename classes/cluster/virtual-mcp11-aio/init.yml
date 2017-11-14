@@ -59,7 +59,7 @@ parameters:
             priority: ${_param:linux_system_repo_priority}
             package: '*'
         mirantis_pike_pkgs:
-          source: "deb http://mirror.fuel-infra.org/mcp-repos/${_param:openstack_version} ${_param:linux_system_codename} main"
+          source: "deb [trusted=yes] http://mirror.fuel-infra.org/mcp-repos/${_param:openstack_version} ${_param:linux_system_codename} main"
           architectures: amd64
           pgpcheck: 0
           pin:
