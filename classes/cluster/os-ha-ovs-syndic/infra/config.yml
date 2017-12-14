@@ -93,6 +93,16 @@ parameters:
               value_template: <<node_deploy_ip>>
             cluster_domain:
               value_template: <<node_domain>>
+        mom_config:
+          expression:
+          - <<node_hostname>>__startswith__mom
+          cluster_param:
+            infra_config_address:
+              value_template: <<node_control_ip>>
+            infra_config_deploy_address:
+              value_template: <<node_deploy_ip>>
+            cluster_domain:
+              value_template: <<node_domain>>
         openstack_control01:
           expression:
           - <<node_hostname>>__equals__ctl01
