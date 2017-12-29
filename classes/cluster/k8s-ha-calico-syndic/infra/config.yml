@@ -25,6 +25,7 @@ parameters:
       master:
         host: ${_param:salt_syndic_master_address}
     master:
+      worker_threads: 20
       reactor:
         reclass/minion/classify:
         - salt://reclass/reactor/node_register.sls
