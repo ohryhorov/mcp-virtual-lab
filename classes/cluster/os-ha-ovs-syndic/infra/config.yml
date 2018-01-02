@@ -68,6 +68,7 @@ parameters:
       master:
         host: ${_param:salt_syndic_master_address}
     master:
+      order_masters: true
       reactor:
         reclass/minion/classify:
         - salt://reclass/reactor/node_register.sls
