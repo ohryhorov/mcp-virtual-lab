@@ -53,7 +53,7 @@ parameters:
           type: eth
           proto: static
           address: ${_param:single_address}
-          netmask: 255.255.255.0
+          netmask: 255.255.254.0
   nginx:
     server:
       site:
@@ -86,6 +86,7 @@ parameters:
         infra_config:
           expression:
           - <<node_hostname>>__startswith__cfg
+          - <<node_cluster>>__equals__os-ha-ovs-syndic
           cluster_param:
             infra_config_address:
               value_template: <<node_control_ip>>
@@ -96,6 +97,7 @@ parameters:
         mom_config:
           expression:
           - <<node_hostname>>__startswith__mom
+          - <<node_cluster>>__equals__os-ha-ovs-syndic
           cluster_param:
             infra_config_address:
               value_template: <<node_control_ip>>
@@ -103,27 +105,34 @@ parameters:
               value_template: <<node_deploy_ip>>
             cluster_domain:
               value_template: <<node_domain>>
+          node_class:
+            value_template:
+              - cluster.<<node_cluster>>.openstack.master
         openstack_control01:
           expression:
           - <<node_hostname>>__equals__ctl01
+          - <<node_cluster>>__equals__os-ha-ovs-syndic
           cluster_param:
             openstack_control_node01_address:
               value_template: <<node_control_ip>>
         openstack_control02:
           expression:
           - <<node_hostname>>__equals__ctl02
+          - <<node_cluster>>__equals__os-ha-ovs-syndic
           cluster_param:
             openstack_control_node02_address:
               value_template: <<node_control_ip>>
         openstack_control03:
           expression:
           - <<node_hostname>>__equals__ctl03
+          - <<node_cluster>>__equals__os-ha-ovs-syndic
           cluster_param:
             openstack_control_node03_address:
               value_template: <<node_control_ip>>
         openstack_compute:
           expression:
           - <<node_hostname>>__startswith__cmp
+          - <<node_cluster>>__equals__os-ha-ovs-syndic
           node_class:
             value_template:
               - cluster.<<node_cluster>>.openstack.compute
@@ -135,6 +144,7 @@ parameters:
         openstack_gateway:
           expression:
           - <<node_hostname>>__startswith__gtw
+          - <<node_cluster>>__equals__os-ha-ovs-syndic
           node_class:
             value_template:
               - cluster.<<node_cluster>>.openstack.gateway
