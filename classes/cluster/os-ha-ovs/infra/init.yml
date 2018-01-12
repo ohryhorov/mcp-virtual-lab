@@ -1,6 +1,7 @@
 parameters:
   _param:
     cluster_domain: os-ha-ovs.local
+    salt_version: '2017.7'
     cluster_name: os-ha-ovs
     infra_config_hostname: cfg01
     infra_config_deploy_address: 192.168.10.90
