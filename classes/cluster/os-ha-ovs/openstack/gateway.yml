@@ -3,7 +3,7 @@ classes:
 - system.linux.system.repo.mcp.extra
 - system.linux.system.repo.saltstack.xenial
 - system.neutron.gateway.cluster
-- cluster.virtual-mcp11-ovs
+- cluster.os-ha-ovs
 parameters:
   _param:
     primary_interface: ens4
@@ -23,18 +23,21 @@ parameters:
           mtu: ${_param:interface_mtu}
         primary_interface:
           enabled: true
+          ipflush_onchange: true
           name: ${_param:primary_interface}
           mtu: ${_param:interface_mtu}
           proto: manual
           type: eth
         tenant_interface:
           enabled: true
+          ipflush_onchange: true
           name: ${_param:tenant_interface}
           mtu: ${_param:interface_mtu}
           proto: manual
           type: eth
         external_interface:
           enabled: true
+          ipflush_onchange: true
           name: ${_param:external_interface}
           mtu: ${_param:interface_mtu}
           proto: manual

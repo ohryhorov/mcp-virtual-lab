@@ -56,6 +56,7 @@ parameters:
     rabbitmq_openstack_password: workshop
     rabbitmq_cold_password: workshop
     designate_service_host: ${_param:openstack_control_address}
+    designate_admin_api_enabled: true
     designate_bind9_rndc_key: 4pc+X4PDqb2q+5o72dISm72LM1Ds9X2EYZjqg+nmsS7FhdTwzFFY8l/iEDmHxnyjkA33EQC8
     designate_domain_id: 5186883b-91fb-4891-bd49-e6769234a8fc
     designate_pool_ns_records:
@@ -123,6 +124,8 @@ parameters:
     horizon_identity_host: ${_param:cluster_vip_address}
     horizon_identity_encryption: none
     horizon_identity_version: 2
+    nginx_proxy_openstack_api_proxy_host: ${_param:cluster_vip_address}
+    loopback_device_size: 20
   linux:
     network:
       host:
