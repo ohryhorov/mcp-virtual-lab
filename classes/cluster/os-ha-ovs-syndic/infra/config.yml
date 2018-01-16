@@ -63,12 +63,7 @@ parameters:
         nginx_proxy_openstack_api_heat_cfn:
           enabled: false
   salt:
-    syndic:
-      enabled: true
-      master:
-        host: ${_param:salt_syndic_master_address}
     master:
-      order_masters: true
       reactor:
         reclass/minion/classify:
         - salt://reclass/reactor/node_register.sls
@@ -95,6 +90,9 @@ parameters:
               value_template: <<node_deploy_ip>>
             cluster_domain:
               value_template: <<node_domain>>
+          node_class:
+            value_template:
+              - system.salt.syndic.single
         mom_config:
           expression:
           - <<node_hostname>>__startswith__mom
