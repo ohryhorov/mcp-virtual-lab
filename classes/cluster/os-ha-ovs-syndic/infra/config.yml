@@ -104,9 +104,6 @@ parameters:
               value_template: <<node_deploy_ip>>
             cluster_domain:
               value_template: <<node_domain>>
-          node_class:
-            value_template:
-              - cluster.<<node_cluster>>.openstack.master
         openstack_control01:
           expression:
           - <<node_hostname>>__equals__ctl01
