@@ -72,6 +72,7 @@ parameters:
           enabled: false
   salt:
     master:
+      worker_threads: 20
       reactor:
         reclass/minion/classify:
         - salt://reclass/reactor/node_register.sls
