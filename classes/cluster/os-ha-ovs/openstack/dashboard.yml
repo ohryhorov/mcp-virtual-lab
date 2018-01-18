@@ -16,4 +16,4 @@ parameters:
           type: eth
           proto: static
           address: ${_param:single_address}
-          netmask: 255.255.255.0
+          netmask: 255.255.254.0
