@@ -20,15 +20,22 @@ parameters:
     salt_api_password_hash: "$6$WV0P1shnoDh2gI/Z$22/Bcd7ffMv0jDlFpT63cAU4PiXHz9pjXwngToKwqAsgoeK4HNR3PiKaushjxp3JsQ8hNoJmAC6TxzVqfV8WH/"
     salt_master_host: 127.0.0.1
   salt:
-    syndic:
-      enabled: true
-      master:
-        host: ${_param:salt_syndic_master_address}
     master:
       worker_threads: 40
       reactor:
         reclass/minion/classify:
         - salt://reclass/reactor/node_register.sls
+      environment:
+        prd:
+          formula:
+            reclass:
+              source: git
+              address: 'https://github.com/ohryhorov/salt-formula-reclass'
+              revision: master
+              module:
+                reclass.py: reclass.py
+              state:
+                reclass.py: reclass.py 
   reclass:
     storage:
       class_mapping:
