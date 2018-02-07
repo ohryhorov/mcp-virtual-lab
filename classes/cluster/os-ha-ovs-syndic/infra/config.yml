@@ -63,10 +63,6 @@ parameters:
         nginx_proxy_openstack_api_heat_cfn:
           enabled: false
   salt:
-    syndic:
-      enabled: true
-      master:
-        host: ${_param:salt_syndic_master_address}
     master:
       order_masters: true
       reactor:
