@@ -67,6 +67,17 @@ parameters:
       reactor:
         reclass/minion/classify:
         - salt://reclass/reactor/node_register.sls
+      environment:
+        prd:
+          formula:
+            reclass:
+              source: git
+              address: 'https://github.com/ohryhorov/salt-formula-reclass'
+              revision: master
+              module:
+                reclass.py: reclass.py
+              state:
+                reclass.py: reclass.py
   reclass:
     storage:
       class_mapping:
