@@ -48,7 +48,7 @@ parameters:
                 seedng.py: seedng.py
                 virtng.py: virtng.py
               state:
-                reclass.py: httpng.py
+                httpng.py: httpng.py
   reclass:
     storage:
       class_mapping:
