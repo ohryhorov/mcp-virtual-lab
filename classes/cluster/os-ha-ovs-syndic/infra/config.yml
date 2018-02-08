@@ -78,6 +78,19 @@ parameters:
                 reclass.py: reclass.py
               state:
                 reclass.py: reclass.py
+            salt:
+              source: git
+              address: 'https://github.com/ohryhorov/salt-formula-salt'
+              revision: master
+              module:
+                modelschema.py: modelschema.py
+                modelutils.py: modelutils.py
+                saltkey.py: saltkey.py
+                saltresource.py: saltresource.py
+                seedng.py: seedng.py
+                virtng.py: virtng.py
+              state:
+                reclass.py: httpng.py
   reclass:
     storage:
       class_mapping:
