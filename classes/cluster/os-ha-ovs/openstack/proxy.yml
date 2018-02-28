@@ -10,7 +10,7 @@ classes:
 parameters:
   _param:
     nginx_proxy_ssl:
-      enabled: false
+      enabled: true
       authority: ${_param:salt_minion_ca_authority}
       engine: salt
       mode: secure
