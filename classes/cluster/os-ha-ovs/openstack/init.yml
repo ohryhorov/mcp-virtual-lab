@@ -1,7 +1,7 @@
 parameters:
   _param:
     openstack_proxy_hostname: cfg
-    openstack_proxy_address: ${_param:infra_config_address}
+    openstack_proxy_address: 172.16.10.254
     openstack_proxy_node01_hostname: cfg01
     openstack_proxy_node01_address: ${_param:infra_config_address}
     openstack_control_hostname: ctl
@@ -27,8 +27,16 @@ parameters:
     mcp_repo_version: 1.1
     openstack_region: RegionOne
     admin_email: root@localhost
-    cluster_public_protocol: http
+    cluster_public_protocol: https
+    cluster_internal_protocol: https
     cluster_public_host: ${_param:openstack_proxy_address}
+    keystone_service_protocol: ${_param:cluster_internal_protocol}
+    glance_service_protocol: ${_param:cluster_internal_protocol}
+    nova_service_protocol: ${_param:cluster_internal_protocol}
+    neutron_service_protocol: ${_param:cluster_internal_protocol}
+    heat_service_protocol: ${_param:cluster_internal_protocol}
+    cinder_service_protocol: ${_param:cluster_internal_protocol}
+    designate_service_protocol: ${_param:cluster_internal_protocol}
     neutron_public_protocol: http
     neutron_control_dvr: False
     neutron_tenant_network_types: "flat,vxlan"

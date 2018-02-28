@@ -1,4 +1,5 @@
 classes:
+- system.salt.minion.cert.proxy
 - system.linux.system.lowmem
 - system.linux.system.repo.glusterfs
 - system.linux.system.repo.mcp.openstack
@@ -8,6 +9,10 @@ classes:
 - system.memcached.server.single
 - system.rabbitmq.server.cluster
 - system.rabbitmq.server.vhost.openstack
+- system.nginx.server.single
+- system.nginx.server.proxy.openstack_api
+- system.nginx.server.proxy.openstack.designate
+- system.nginx.server.proxy.openstack.placement
 - system.keystone.server.wsgi
 - system.keystone.server.cluster
 - system.glusterfs.client.cluster
@@ -38,7 +43,34 @@ classes:
 - cluster.os-ha-ovs
 parameters:
   _param:
+    salt_minion_ca_authority: salt_master_ca
     keepalived_vip_interface: ens4
+    ### nginx ssl sites settings
+    nginx_proxy_ssl:
+      enabled: true
+      engine: salt
+      authority: "${_param:salt_minion_ca_authority}"
+      key_file: "/etc/ssl/private/internal_proxy.key"
+      cert_file: "/etc/ssl/certs/internal_proxy.crt"
+      chain_file: "/etc/ssl/certs/internal_proxy-with-chain.crt"
+    nginx_proxy_openstack_api_address: ${_param:cluster_local_address}
+    nginx_proxy_openstack_keystone_host: 127.0.0.1
+    nginx_proxy_openstack_nova_host: 127.0.0.1
+    nginx_proxy_openstack_cinder_host: 127.0.0.1
+    nginx_proxy_openstack_glance_host: 127.0.0.1
+    nginx_proxy_openstack_neutron_host: 127.0.0.1
+    nginx_proxy_openstack_heat_host: 127.0.0.1
+    nginx_proxy_openstack_designate_host: 127.0.0.1
+    nginx_proxy_openstack_placement_host: 127.0.0.1
+    apache_keystone_api_host: ${_param:single_address}
+    apache_keystone_ssl: ${_param:nginx_proxy_ssl}
+  nginx:
+    server:
+      site:
+        nginx_proxy_openstack_api_keystone:
+          enabled: false
+        nginx_proxy_openstack_api_keystone_private:
+          enabled: false
   linux:
     system:
       package:
@@ -102,16 +134,35 @@ parameters:
       notification:
         driver: messagingv2
         topics: "notifications"
+      bind:
+        address: 127.0.0.1
+      identity:
+        protocol: https
+      registry:
+        protocol: https
   heat:
     server:
       notification:
         driver: messagingv2
         topics: "notifications"
+      bind:
+        api:
+          address: 127.0.0.1
+        api_cfn:
+          address: 127.0.0.1
+        api_cloudwatch:
+          address: 127.0.0.1
+      identity:
+        protocol: https
   neutron:
     server:
       notification:
         driver: messagingv2
         topics: "notifications"
+      bind:
+        address: 127.0.0.1
+      identity:
+        protocol: https
   bind:
     server:
       control:
@@ -133,9 +184,15 @@ parameters:
       metadata:
         password: ${_param:metadata_password}
       bind:
-        private_address: ${_param:cluster_local_address}
+        private_address: 127.0.0.1
         public_address: ${_param:cluster_vip_address}
         novncproxy_port: 6080
+      identity:
+        protocol: https
+      network:
+        protocol: https
+      glance:
+        protocol: https
       vncproxy_url: http://${_param:cluster_vip_address}:6080
       workers: 1
       notification:
@@ -150,3 +207,51 @@ parameters:
       notification:
         driver: messagingv2
         topics: "notifications"
+      identity:
+        protocol: https
+      osapi:
+        host: 127.0.0.1
+      glance:
+        protocol: https
+  salt:
+    minion:
+      cert:
+        internal_proxy:
+          host: ${_param:salt_minion_ca_host}
+          authority: ${_param:salt_minion_ca_authority}
+          common_name: internal_proxy
+          signing_policy: cert_open
+          alternative_names: IP:127.0.0.1,IP:${_param:cluster_local_address},IP:${_param:cluster_public_host},DNS:${linux:system:name},DNS:${linux:network:fqdn},DNS:${_param:cluster_local_address},DNS:${_param:cluster_public_host}
+          key_file: "/etc/ssl/private/internal_proxy.key"
+          cert_file: "/etc/ssl/certs/internal_proxy.crt"
+          all_file: "/etc/ssl/certs/internal_proxy-with-chain.crt"
+  haproxy:
+    proxy:
+      listen:
+        keystone_public_api:
+          type: ~
+        designate_api:
+          type: ~
+        keystone_admin_api:
+          type: ~
+        nova_api:
+          type: ~
+        nova_metadata_api:
+          type: ~
+        cinder_api:
+          type: ~
+        glance_api:
+          type: ~
+        glance_registry_api:
+          type: ~
+        heat_cloudwatch_api:
+          type: ~
+        heat_api:
+          type: ~
+        heat_cfn_api:
+          type: ~
+        neutron_api:
+          type: ~
+        nova_placement_api:
+          type: ~
+
