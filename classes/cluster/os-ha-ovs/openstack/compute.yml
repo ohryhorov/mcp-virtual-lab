@@ -27,6 +27,14 @@ parameters:
           - host: ${_param:openstack_control_node01_address}
           - host: ${_param:openstack_control_node02_address}
           - host: ${_param:openstack_control_node03_address}
+      identity:
+        protocol: https
+      network:
+        protocol: https
+      glance:
+        protocol: https
+      image:
+        protocol: https
   linux:
     network:
       bridge: openvswitch

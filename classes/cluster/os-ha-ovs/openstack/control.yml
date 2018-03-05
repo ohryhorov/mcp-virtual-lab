@@ -38,7 +38,6 @@ classes:
 - system.galera.server.database.heat
 - system.galera.server.database.keystone
 - system.galera.server.database.nova
-- system.haproxy.proxy.listen.openstack.nova-placement
 - cluster.os-ha-ovs.openstack.dashboard
 - cluster.os-ha-ovs
 parameters:
@@ -253,5 +252,21 @@ parameters:
         neutron_api:
           type: ~
         nova_placement_api:
-          type: ~
-
+          mode: tcp
+          service_name: nova_placement
+          binds:
+          - address: ${_param:cluster_vip_address}
+            port: 8778
+          servers:
+          - name: ${_param:cluster_node01_hostname}
+            host: ${_param:cluster_node01_address}
+            port: 8778
+            params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+          - name: ${_param:cluster_node02_hostname}
+            host: ${_param:cluster_node02_address}
+            port: 8778
+            params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
+          - name: ${_param:cluster_node03_hostname}
+            host: ${_param:cluster_node03_address}
+            port: 8778
+            params: check inter 10s fastinter 2s downinter 3s rise 3 fall 3
