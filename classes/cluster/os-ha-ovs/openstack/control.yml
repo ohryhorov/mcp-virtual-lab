@@ -63,6 +63,8 @@ parameters:
     nginx_proxy_openstack_placement_host: 127.0.0.1
     apache_keystone_api_host: ${_param:single_address}
     apache_keystone_ssl: ${_param:nginx_proxy_ssl}
+    designate_api_address: 127.0.0.1
+    designate_api_base_uri: ${_param:cluster_vip_address}
   nginx:
     server:
       site:
@@ -124,6 +126,13 @@ parameters:
                 rndc_host: ${_param:openstack_control_node03_address}
                 rndc_port: 953
                 rndc_key_file: /etc/designate/rndc.key
+      bind:
+        api:
+          address: ${_param:designate_api_address}
+      api:
+        base_uri: ${_param:designate_service_protocol}://${_param:designate_api_base_uri}:9001/
+      identity:
+        protocol: https
   glance:
     server:
       storage:
