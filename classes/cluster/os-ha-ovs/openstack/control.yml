@@ -206,6 +206,9 @@ parameters:
       notification:
         driver: messagingv2
         topics: "notifications"
+      metadata:                                                                                                                                                                                                                              
+         bind:                                                                                                                                                                                                                               
+           address: ${_param:single_address}
   cinder:
     volume:
       notification:

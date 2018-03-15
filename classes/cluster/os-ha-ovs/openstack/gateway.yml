@@ -81,3 +81,11 @@ parameters:
           - ${_param:external_interface}
           use_ovs_ports:
           - float-to-ex
+        phy-public:
+          enabled: true
+          type: ovs_port
+          bridge: br-floating
+          proto: static
+          address: ${_param:openstack_public_neutron_subnet_gateway}
+          netmask: 255.255.255.0
+
