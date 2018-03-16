@@ -4,7 +4,7 @@ classes:
 - system.linux.system.repo.saltstack.xenial
 #- system.keystone.client.core
 - system.neutron.gateway.cluster
-- system.neutron.client.service.public
+#- system.neutron.client.service.public
 - cluster.os-ha-ovs
 parameters:
   _param:
