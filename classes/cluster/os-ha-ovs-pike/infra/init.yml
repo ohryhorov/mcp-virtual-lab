@@ -1,7 +1,7 @@
 parameters:
   _param:
-    cluster_domain: os-ha-ovs.local
-    cluster_name: os-ha-ovs
+    cluster_domain: os-ha-ovs-pike.local
+    cluster_name: os-ha-ovs-pike
     infra_config_hostname: cfg01
     infra_config_deploy_address: 192.168.10.90
     infra_config_address: 172.16.10.90

@@ -4,7 +4,7 @@ classes:
 - system.linux.system.repo.mcp.extra
 - system.linux.system.repo.saltstack.xenial
 - system.horizon.server.single
-- cluster.os-ha-ovs
+- cluster.os-ha-ovs-pike
 parameters:
   _param:
     horizon_site_branding: OpenStack Dashboard

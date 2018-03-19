@@ -5,8 +5,8 @@ classes:
 - system.nginx.server.proxy.openstack_web
 - system.nginx.server.proxy.openstack.designate
 - system.salt.minion.cert.proxy
-- cluster.os-ha-ovs.openstack.dashboard
-- cluster.os-ha-ovs
+- cluster.os-ha-ovs-pike.openstack.dashboard
+- cluster.os-ha-ovs-pike
 parameters:
   _param:
     nginx_proxy_ssl:

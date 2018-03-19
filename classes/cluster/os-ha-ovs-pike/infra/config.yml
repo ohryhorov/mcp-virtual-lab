@@ -33,8 +33,9 @@ classes:
 - system.mysql.client.database.nova_api
 - system.mysql.client.database.neutron
 - system.reclass.storage.system.openstack_control_cluster
-- cluster.os-ha-ovs.openstack.proxy
-- cluster.os-ha-ovs
+- system.neutron.client.service.public
+- cluster.os-ha-ovs-pike.openstack.proxy
+- cluster.os-ha-ovs-pike
 parameters:
   _param:
     reclass_data_repository: https://gerrit.mcp.mirantis.net/salt-models/mcp-virtual-lab
@@ -69,6 +70,12 @@ parameters:
       reactor:
         reclass/minion/classify:
         - salt://reclass/reactor/node_register.sls
+      environment:
+        prd:
+          formula:
+            runtest:
+              source: pkg
+              name: salt-formula-runtest
   reclass:
     storage:
       class_mapping:

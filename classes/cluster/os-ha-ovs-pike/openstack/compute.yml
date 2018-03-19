@@ -5,7 +5,7 @@ classes:
 - system.linux.network.hosts
 - system.nova.compute.cluster
 - system.neutron.compute.cluster
-- cluster.os-ha-ovs
+- cluster.os-ha-ovs-pike
 parameters:
   _param:
     primary_interface: ens4
