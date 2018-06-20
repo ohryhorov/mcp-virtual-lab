@@ -15,10 +15,3 @@ parameters:
       engine: salt
       mode: secure
     salt_minion_ca_host: cfg01.${linux:system:domain}
-  nginx:
-    server:
-      site:
-        nginx_ssl_redirect_openstack_web:
-          redirect:
-            protocol: https
-            host: $host

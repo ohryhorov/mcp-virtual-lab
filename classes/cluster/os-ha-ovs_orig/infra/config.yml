@@ -4,8 +4,8 @@ classes:
 - system.linux.system.repo.mcp.salt
 - system.linux.system.repo.mcp.openstack
 - system.openssh.client.lab
-- system.salt.master.pkg
 - system.salt.master.api
+- system.salt.master.pkg
 - system.reclass.storage.salt
 - system.salt.minion.ca.salt_master
 - system.salt.minion.cert.proxy
